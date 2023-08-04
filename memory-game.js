@@ -93,9 +93,6 @@ function handleCardClick(event) {
       attempts++;
       document.querySelector("#attempts").textContent = attempts;
       gameStatus.textContent = "You matched " + card1.className;
-      setTimeout(function() {
-        gameStatus.textContent = "";
-      }, 2000);
 
       matchCounter++;
       if (matchCounter === 5) {
@@ -104,6 +101,7 @@ function handleCardClick(event) {
           document.querySelector("#bestScore").textContent = bestScore;
         }
         restartButton.disabled = false;
+        gameStatus.textContent = "You matched all the cards! Press restart to play again."
       }
 
     } else {
@@ -134,4 +132,6 @@ function restart() {
 
   const colors = shuffle(COLORS);
   createCards(colors);
+
+  gameStatus.textContent = "";
 }

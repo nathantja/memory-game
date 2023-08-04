@@ -18,6 +18,18 @@ body {
   margin: 20px;
 }
 
+.buttons {
+  margin-bottom: 20px;
+}
+
+.buttons button {
+  padding: 4px 10px;
+}
+
+#scoreboard {
+  margin-bottom: 20px;
+}
+
 #game {
   max-width: 770px;
 }
