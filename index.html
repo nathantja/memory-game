@@ -1,17 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <title>Memory Game!</title>
-  <link rel="stylesheet" href="memory-game.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memory Game</title>
+  <link rel="stylesheet" href="memory-game.css">
 </head>
+
 <body>
+  <div class="container">
+    <h1>Memory Game!</h1>
+  </div>
+  <div class="buttons">
+    <button id="startButton">Start Game</button>
+    <button id="restartButton">Restart</button>
+  </div>
+  <div id="scoreboard">
+    <h2>Best Score: <span id="bestScore"></span></h2>
+    <h2>Attempts: <span id="attempts"></span></h2>
+  </div>
 
-<h1>Memory Game!</h1>
+  <div id="game"></div>
 
-<div id="game"></div>
+  <div>
+    <p id="gameStatus"></p>
+  </div>
 
-<script src="memory-game.js"></script>
-
+  <script src="memory-game.js"></script>
 </body>
 </html>

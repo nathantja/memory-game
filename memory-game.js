@@ -10,8 +10,18 @@ const COLORS = [
 
 const colors = shuffle(COLORS);
 
-createCards(colors);
+let flipped = [];
+let attempts = 0;
+let matchCounter = 0;
+let bestScore = Infinity;
+let gameStatus = document.querySelector("#gameStatus");
+let startButton = document.querySelector("#startButton");
+let restartButton = document.querySelector("#restartButton");
 
+startButton.addEventListener("click", start);
+restartButton.addEventListener("click", restart);
+
+restartButton.disabled = true;
 
 /** Shuffle array items in-place and return shuffled array. */
 
@@ -42,24 +52,86 @@ function createCards(colors) {
   const gameBoard = document.getElementById("game");
 
   for (let color of colors) {
-    // missing code here ...
+    const card = document.createElement("div");
+    card.classList.add(color);
+    card.addEventListener("click", handleCardClick);
+    gameBoard.append(card);
   }
 }
 
 /** Flip a card face-up. */
 
 function flipCard(card) {
-  // ... you need to write this ...
+  card.style.backgroundColor = card.className;
+  flipped.push(card);
+  card.removeEventListener("click", handleCardClick);
 }
 
 /** Flip a card face-down. */
 
 function unFlipCard(card) {
-  // ... you need to write this ...
+  card.style.backgroundColor = "";
+  card.addEventListener("click", handleCardClick);
 }
 
 /** Handle clicking on a card: this could be first-card or second-card. */
 
-function handleCardClick(evt) {
-  // ... you need to write this ...
+function handleCardClick(event) {
+  let card = event.target;
+
+  if (flipped.length === 2) {
+    return;
+  } else {
+    flipCard(card);
+  }
+
+  if (flipped.length === 2) {
+    let card1 = flipped[0];
+    let card2 = flipped[1];
+    if (card1.className === card2.className) {
+      flipped = [];
+      attempts++;
+      document.querySelector("#attempts").textContent = attempts;
+      gameStatus.textContent = "You matched " + card1.className;
+      setTimeout(function() {
+        gameStatus.textContent = "";
+      }, 2000);
+
+      matchCounter++;
+      if (matchCounter === 5) {
+        if (attempts < bestScore) {
+          bestScore = attempts;
+          document.querySelector("#bestScore").textContent = bestScore;
+        }
+        restartButton.disabled = false;
+      }
+
+    } else {
+      attempts++;
+      document.querySelector("#attempts").textContent = attempts;
+      setTimeout(function() {
+        flipped = [];
+        unFlipCard(card1);
+        unFlipCard(card2);
+      }, FOUND_MATCH_WAIT_MSECS);
+    }
+  }
+}
+
+function start() {
+  createCards(colors);
+  startButton.disabled = true;
+}
+
+function restart() {
+  restartButton.disabled = true;
+  matchCounter = 0;
+  attempts = 0;
+  document.querySelector("#attempts").textContent = attempts;
+
+  const gameBoard = document.getElementById("game");
+  gameBoard.innerHTML = "";
+
+  const colors = shuffle(COLORS);
+  createCards(colors);
 }
